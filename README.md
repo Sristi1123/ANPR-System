@@ -2,7 +2,7 @@
 
 > Real-time license plate detection, OCR, and IN/OUT logging using YOLOv8 + EasyOCR — built as a complete, end-to-end computer vision pipeline.
 
-![ANPR Demo](demo.png)
+![ANPR Demo](screenshot.png)
 
 ---
 

@@ -1,0 +1,26 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+
+# --- Virtual environment ---
+venv/
+.venv/
+env/
+
+# --- YOLO model weights (large binary, download separately) ---
+*.pt
+*.onnx
+yolo-weights/
+
+# --- Generated data (logs + debug crops) ---
+# Keep the data/ directory itself (via .gitkeep) but ignore generated files
+data/vehicle_log.csv
+data/vehicle_log.csv.broken
+data/debug_crops/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

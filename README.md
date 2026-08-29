@@ -127,6 +127,33 @@ KA01AB1234,OUT,2026-08-29 13:36:29
 
 ---
 
+## Docker Deployment
+
+The application is containerized and available on Docker Hub at [sristi1/anpr-system](https://hub.docker.com/r/sristi1/anpr-system). Model weights for YOLOv8 and EasyOCR are pre-downloaded inside the image so it runs completely self-contained.
+
+### 1. Pull the Image
+```bash
+docker pull sristi1/anpr-system:latest
+```
+
+### 2. Run Headless with a Video File
+Since Docker containers cannot access local GUIs or display windows by default, run the container in **headless** mode by mounting an input directory containing your video file and an output directory for the CSV log:
+
+```bash
+docker run -v ${PWD}/input:/app/input -v ${PWD}/output:/app/data sristi1/anpr-system:latest --source /app/input/video.mp4 --headless
+```
+*   Place your test video at `./input/video.mp4`.
+*   The results will be written to `./output/vehicle_log.csv`.
+
+### 3. Run with Docker Compose
+Alternatively, use the provided `docker-compose.yml` to spin up the container:
+
+```bash
+docker compose up
+```
+
+---
+
 ## Tuning (`config.py`)
 
 | Parameter | Default | What it controls |

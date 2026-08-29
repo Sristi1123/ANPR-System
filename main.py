@@ -6,14 +6,20 @@ processing step pulled out into its own module so the loop
 stays readable.
 
 Pipeline per frame:
-1. Grab frame from webcam
+1. Grab frame from webcam (or video file)
 2. detector.py    -> find car bounding boxes
 3. plate_extractor.py -> crop the likely plate region from each car box
 4. ocr_reader.py  -> read text off that crop
 5. logger.py      -> log IN/OUT to CSV if this is a new/confident reading
-6. draw boxes + plate text on the frame and show it
+6. draw boxes + plate text on the frame and show it (skipped in headless mode)
+
+CLI args:
+  --source   webcam index or path to a video file (default: 0 = webcam)
+  --headless skip cv2.imshow — use this when running inside Docker
+             or any environment without a display
 """
 
+import argparse
 import cv2
 import cvzone
 import time
@@ -27,10 +33,26 @@ _debug_frame_count = 0  # used to give each saved crop a unique filename
 
 
 def main():
-    cap = cv2.VideoCapture(config.VIDEO_SOURCE)
+    parser = argparse.ArgumentParser(description='ANPR - Automatic Number Plate Recognition')
+    parser.add_argument('--source', default=None,
+                        help='Video source: webcam index (0,1,...) or path to a video file. '
+                             'Defaults to config.VIDEO_SOURCE.')
+    parser.add_argument('--headless', action='store_true',
+                        help='Run without a display window (for Docker / server use)')
+    args = parser.parse_args()
+
+    # resolve source: CLI arg overrides config
+    source = args.source if args.source is not None else config.VIDEO_SOURCE
+    # if source looks like an integer string ("0", "1"), treat it as a webcam index
+    try:
+        source = int(source)
+    except (ValueError, TypeError):
+        pass  # keep as string (video file path)
+
+    cap = cv2.VideoCapture(source)
 
     if not cap.isOpened():
-        print("Could not open video source:", config.VIDEO_SOURCE)
+        print("Could not open video source:", source)
         return
 
     # rolling FPS measurement - so I have a real number to quote instead
@@ -90,13 +112,20 @@ def main():
                 cvzone.putTextRect(frame, label, (px1, max(0, py1 - 10)), scale=1, thickness=1)
 
         cvzone.putTextRect(frame, f'FPS: {int(fps)}', (10, 30), scale=1, thickness=1)
-        cv2.imshow("ANPR", frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('x'):
-            break
+        if not args.headless:
+            cv2.imshow("ANPR", frame)
+            if cv2.waitKey(1) & 0xFF == ord('x'):
+                break
+        else:
+            # headless: print a dot every 30 frames so you know it's alive
+            if int(fps) % 30 == 0:
+                print(".", end="", flush=True)
 
     cap.release()
-    cv2.destroyAllWindows()
+    if not args.headless:
+        cv2.destroyAllWindows()
+    print("\nDone. Log written to:", config.LOG_FILE)
 
 
 if __name__ == "__main__":

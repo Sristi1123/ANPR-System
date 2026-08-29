@@ -1,0 +1,31 @@
+# Git/version control
+.git
+.gitignore
+.gitkeep
+
+# Virtual environment (use pip install inside Docker instead)
+venv/
+.venv/
+env/
+
+# YOLO weights (downloaded fresh inside Docker at build time)
+yolo-weights/
+
+# Generated data (mounted as a volume at runtime)
+data/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Dev/editor artifacts
+.vscode/
+.idea/
+*.md
+demo.png
+
+# Docker itself
+Dockerfile
+docker-compose.yml
+.dockerignore

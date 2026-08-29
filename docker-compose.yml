@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  anpr:
+    image: sristi1/anpr-system:latest
+    # To build locally instead of pulling:
+    # build: .
+
+    volumes:
+      # Mount a local video file for processing
+      # Place your video at ./input/video.mp4 before running
+      - ./input:/app/input:ro
+
+      # Output: vehicle_log.csv will appear in ./output/
+      - ./output:/app/data
+
+    command: ["python", "main.py", "--source", "/app/input/video.mp4", "--headless"]
+
+    # Uncomment below to use your webcam on Linux:
+    # devices:
+    #   - /dev/video0:/dev/video0
+    # environment:
+    #   - DISPLAY=${DISPLAY}
+    # volumes:
+    #   - /tmp/.X11-unix:/tmp/.X11-unix
+    # command: ["python", "main.py", "--source", "0"]

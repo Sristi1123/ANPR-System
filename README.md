@@ -2,6 +2,15 @@
 
 > Real-time license plate detection, OCR, and IN/OUT logging using YOLOv8 + EasyOCR — built as a complete, end-to-end computer vision pipeline.
 
+[![Live Web App](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://anpr-system-qmmzbbszamxybcskwqxcwx.streamlit.app/)
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-sristi1%2Fanpr--system-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/r/sristi1/anpr-system)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
+
+🔗 **Live Interactive Web App:** https://anpr-system-qmmzbbszamxybcskwqxcwx.streamlit.app/
+🐳 **Docker Container Image:** https://hub.docker.com/r/sristi1/anpr-system
+
+
 ![ANPR Demo](screenshot.png)
 
 ---

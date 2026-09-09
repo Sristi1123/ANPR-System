@@ -140,3 +140,12 @@ def log_plate(plate_number):
 
     _last_logged_time[plate_number] = now
     return new_status
+
+
+def clear_log():
+    """Resets the log CSV file and clears in-memory cooldown tracking."""
+    global _last_logged_time
+    _last_logged_time = {}
+    with open(config.LOG_FILE, mode="w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["plate_number", "status", "timestamp"])

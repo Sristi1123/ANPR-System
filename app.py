@@ -17,7 +17,7 @@ import config
 from detector import detect_cars
 from plate_extractor import extract_plate_region
 from ocr_reader import read_plate_text, _preprocess
-from logger import log_plate
+from logger import log_plate, clear_log
 
 # Page Configuration
 st.set_page_config(
@@ -223,20 +223,27 @@ def main():
 
                     st.dataframe(df.tail(15), use_container_width=True)
 
-                    # Download button
+                    # Action buttons: Download & Clear
+                    b_col1, b_col2 = st.columns(2)
                     csv_data = df.to_csv(index=False).encode('utf-8')
-                    st.download_button(
-                        label="📥 Download CSV Log",
-                        data=csv_data,
-                        file_name="vehicle_entry_exit_log.csv",
-                        mime="text/csv",
-                    )
+                    with b_col1:
+                        st.download_button(
+                            label="📥 Download Log",
+                            data=csv_data,
+                            file_name="vehicle_entry_exit_log.csv",
+                            mime="text/csv",
+                            use_container_width=True
+                        )
+                    with b_col2:
+                        if st.button("🗑️ Reset Log", use_container_width=True):
+                            clear_log()
+                            st.rerun()
                 else:
-                    st.info("Log file is empty. Process an image/video to record entries.")
+                    st.info("No vehicles logged yet. Upload an image or video to record a live entry!")
             except Exception as e:
                 st.error(f"Error reading log file: {e}")
         else:
-            st.info("No log file created yet.")
+            st.info("No vehicles logged yet. Upload an image or video to record a live entry!")
 
 
 if __name__ == "__main__":

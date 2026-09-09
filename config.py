@@ -9,7 +9,8 @@ change it once instead of hunting through every file.
 import os
 
 # path to the pretrained YOLO model (COCO classes -> we only care about class 2 = "car")
-YOLO_MODEL_PATH = "yolo-weights/yolov8n.pt"
+import os
+YOLO_MODEL_PATH = "yolo-weights/yolov8n.pt" if os.path.exists("yolo-weights/yolov8n.pt") else "yolov8n.pt"
 
 # COCO class id for "car". (0=person, 2=car, 3=motorcycle, 5=bus, 7=truck)
 CAR_CLASS_ID = 2

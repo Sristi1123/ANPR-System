@@ -1,4 +1,7 @@
 ultralytics
-opencv-python
+opencv-python-headless
 easyocr
 cvzone
+streamlit
+pandas
+Pillow

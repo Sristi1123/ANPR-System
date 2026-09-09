@@ -147,7 +147,7 @@ def main():
 
                 # Display annotated result
                 res_image = Image.fromarray(cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB))
-                st.image(res_image, caption=f"Pipeline Output — Processed in {proc_time:.1f} ms", use_column_width=True)
+                st.image(res_image, caption=f"Pipeline Output — Processed in {proc_time:.1f} ms", use_container_width=True)
 
                 if detections:
                     st.markdown("### 🔍 Extracted Plate Pipeline Inspection")
@@ -187,7 +187,7 @@ def main():
                     
                     annotated_frame, _ = process_frame(frame)
                     res_image = Image.fromarray(cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB))
-                    st_frame.image(res_image, use_column_width=True)
+                    st_frame.image(res_image, use_container_width=True)
 
                 cap.release()
                 os.unlink(tfile.name)
@@ -204,7 +204,7 @@ def main():
                     annotated_frame, detections = process_frame(frame)
 
                 res_image = Image.fromarray(cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB))
-                st.image(res_image, caption="ANPR Pipeline Result", use_column_width=True)
+                st.image(res_image, caption="ANPR Pipeline Result", use_container_width=True)
 
     with col_logs:
         st.subheader("📋 Vehicle Entry/Exit Log")
